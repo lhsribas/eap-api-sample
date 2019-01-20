@@ -6,15 +6,42 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>br.com.banestes.eap</groupId>
-		<artifactId>eap-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+  <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>23.0.0.redhat-1</version>
+  </parent>
 
 	<artifactId>eap-api-sample</artifactId>
 	<packaging>war</packaging>
-	<name>EAP API Sample</name>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>EAP API Sample</name>
+
+  <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
+        <version.server.bom>7.1.0.GA</version.server.bom>
+        <version.jboss.spec.javaee.7.0>1.1.0.Final-redhat-3</version.jboss.spec.javaee.7.0>
+    </properties>
+
+  <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-eap-javaee7-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+      </dependencyManagement>
 
 	<dependencies>
 
@@ -42,6 +69,99 @@
 			<scope>provided</scope>
 		</dependency>
 
-	</dependencies>
+  </dependencies>
+
+  <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>${version.jboss.maven.plugin}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>1.0-m5.1</version>
+                    <configuration>
+                        <!--
+                            Desabilitamos o push devido a um bug do jgit ao tentar efetuar um push ao repositorio.
+                            O Bug foi corrigido em uma versão mais recente do jgit, porém a mesma é incompatível com
+                            a versão mais atual do jgitflow. Contribuições são bem vindas. #OSS
+                        -->
+                        <pushReleases>false</pushReleases>
+                        <noDeploy>true</noDeploy>
+                        <keepBranch>true</keepBranch>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <noTag>false</noTag>
+                        <allowUntracked>true</allowUntracked>
+                        <pullDevelop>true</pullDevelop>
+                        <pullMaster>true</pullMaster>
+                        <allowSnapshots>true</allowSnapshots>
+                        <scmCommentPrefix>[RELEASE]</scmCommentPrefix>
+                        <offline>true</offline>
+                        <flowInitContext>
+                            <masterBranchName>master</masterBranchName>
+                            <developBranchName>develop</developBranchName>
+                            <featureBranchPrefix>feature/</featureBranchPrefix>
+                            <releaseBranchPrefix>release/</releaseBranchPrefix>
+                            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+                            <versionTagPrefix>v</versionTagPrefix>
+                        </flowInitContext>
+                    </configuration>
+                </plugin>
+
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                	<groupId>org.eclipse.m2e</groupId>
+                	<artifactId>lifecycle-mapping</artifactId>
+                	<version>1.0.0</version>
+                	<configuration>
+                		<lifecycleMappingMetadata>
+                			<pluginExecutions>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							com.redhat.rcm.maven.plugin
+                						</groupId>
+                						<artifactId>
+                							buildmetadata-maven-plugin
+                						</artifactId>
+                						<versionRange>
+                							[1.7.0,)
+                						</versionRange>
+                						<goals>
+                							<goal>
+                								provide-buildmetadata
+                							</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                			</pluginExecutions>
+                		</lifecycleMappingMetadata>
+                	</configuration>
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
+
+    </build>
 
 </project>
