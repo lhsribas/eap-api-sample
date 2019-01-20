@@ -9,7 +9,6 @@ import javax.ws.rs.Produces;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 @Path("/")
-@SecurityDomain("keycloak")
 public class SampleResource {
     @Inject
     SampleService sampleService;
@@ -17,7 +16,6 @@ public class SampleResource {
     @GET
     @Path("/json")
     @Produces({"application/json"})
-    @RolesAllowed({"PREMIUM"})
     public String getJSON() {
         return "{\"result\":\"" + sampleService.createMessage("World") + "\"}";
     }
@@ -25,7 +23,6 @@ public class SampleResource {
     @GET
     @Path("/xml")
     @Produces({"application/xml"})
-    @RolesAllowed({"BASIC"})
     public String getXML() {
         return "<xml><result>" + sampleService.createMessage("World") + "</result></xml>";
     }
