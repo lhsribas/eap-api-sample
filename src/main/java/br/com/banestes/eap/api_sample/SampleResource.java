@@ -6,8 +6,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.jboss.ejb3.annotation.SecurityDomain;
-
 @Path("/")
 public class SampleResource {
     @Inject
