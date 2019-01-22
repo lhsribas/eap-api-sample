@@ -1,14 +1,15 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-	<servlet-mapping>
+  
+  <servlet-mapping>
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 	
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>eap-api-sample</web-resource-name>
+            <web-resource-name>*</web-resource-name>
             <url-pattern>/rest/xml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -18,7 +19,7 @@
     
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>eap-api-sample</web-resource-name>
+            <web-resource-name>*</web-resource-name>
             <url-pattern>/rest/json</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -26,7 +27,9 @@
         </auth-constraint>
     </security-constraint>
 
- 
+    <login-config>
+		  <auth-method>KEYCLOAK</auth-method>
+	  </login-config>
 
     <security-role>
         <role-name>BASIC</role-name>
