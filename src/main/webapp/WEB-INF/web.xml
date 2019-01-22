@@ -23,7 +23,7 @@
             <url-pattern>/rest/json</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>PERMIUM</role-name>
+            <role-name>PREMIUM</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -36,7 +36,7 @@
     </security-role>
     
      <security-role>
-        <role-name>PERMIUM</role-name>
+        <role-name>PREMIUM</role-name>
     </security-role>
 	
 </web-app>
